@@ -1,27 +1,23 @@
+import sys
+
 def get_customer_info():
   name=input("enter your name:")
   address=input("enter your address:")
   username=input("enter the username:")
   password=input("enter your password:")
-
   return=[name,address,username,password]
+get_customer_info()
 
 def create_customer_next_id():
+  with open("customers.txt","r") as customer_file:
+        print(int(customer_file.readline()[-1].split(",")[0][1:]+1))
+      return f"U(int(customer_file.readline()[-1].split(",")[0][1:]+1:03))
+create_customer_next_id():
 
+d
 
-
-choice=int(input("enter your choice(1-6):"))
-if choice=="1":
-
-    customer_user_name=input("enter your name:")
-    customer_password=input("enter the password:")
-    customer_id_number=input("enter the aid number:")
-
-    file =open("user details.txt","a")
-    file.write(f"Name: {customer_user_name}\n")
-    file.write(f"password: {customer_password}\n")
-    file.write(f"id_number: {customer_account_number}\n")
-    file.close()
+accounts={}
+account_number=001
 
 def create_account():
     global account_number
@@ -37,52 +33,52 @@ except ValueError:
 
 
 def withdraw_money():
-    account_no = int(input("enter account number"))
-    if account_no not in accounts:
+    acc_no = int(input("enter account number"))
+    if acc_no not in accounts:
         print("Account not found")
         return
     amount = float(input("enter the withdraw amount"))
     if amount <= 0:
         print("amount is positive")
         return
-    if amount>accounts[account_no]["balance"]:
+    if amount>accounts[acc_no]["balance"]:
         print ("insuffucient balance")
         return
-    accounts[account_no]["balance"] += amount
-    accounts[account_no]["transaction"].append(("withdraw",amount))
+    accounts[acc_no]["balance"] += amount
+    accounts[acc_no]["transaction"].append(("withdraw",amount))
     print ("withdraw successfull!")
 
 
 def deposit_money():
-    account_no = int(input("enter account number"))
-    if account_no not in accounts:
+    acc_no = int(input("enter account number"))
+    if acc_no not in accounts:
         print("Account not found")
         return
     amount =float (input(":enter the deposit amount"))
     if amount <= 0:
         print("amount is positive")
         return
-    if amount>accounts[account_no]["balance"]:
+    if amount>accounts[acc_no]["balance"]:
         print ("insuffucient balance")
         return
-    accounts[account_no]["balance"] += amount
-    accounts[account_no]["transaction"].append(("deposit",amount))
+    accounts[acc_no]["balance"] += amount
+    accounts[acc_no]["transaction"].append(("deposit",amount))
     print ("deposit successfull!")
 
 
 def check_balance():
     try: 
-        account_no=int(input("enter your account number"))
-        if account_no not in accounts:
+        acc_no=int(input("enter your account number"))
+        if acc_no not in accounts:
             print("account is not found")
             return
-        print(f"current balance is {accounts[account_no]["balance"]}")
+        print(f"current balance is {accounts[acc_no]["balance"]}")
 
 
 def transaction_history():
     try: 
-        account_no=int(input("enter your account number"))
-        if account_no not in accounts:
+        acc_no=int(input("enter your account number"))
+        if acc_no not in accounts:
             print("account is not found")
             return
         
@@ -100,6 +96,8 @@ def main():
         print("4.Check balance\n")
         print("5.Transaction history\n")
         print("6.Exit\n")
+        choice=int(input("enter your choice(1-6):"))
+        if choice=="1":
 
 
 
