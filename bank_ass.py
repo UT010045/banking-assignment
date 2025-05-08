@@ -30,7 +30,7 @@ def create_customer():
 def create_user():
     user = get_customer_info()
     with open("user.txt","w") as file:
-        file.write(f"{customer[2]},{customer[3]}\n")
+        file.write(f"{customer[2]},{customer[3]}")
 
 def view_all_customer():
     with open("customers.txt","r") as file:
