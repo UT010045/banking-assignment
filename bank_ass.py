@@ -1,9 +1,12 @@
 def get_customer_info():
+  name=input("enter your name:")
+  address=input("enter your address:")
+  username=input("enter the username:")
+  password=input("enter your password:")
 
+  return=[name,address,username,password]
 
-customer_name=input("enter your name:")
-password=input("enter your password:")
-
+def create_customer_next_id():
 
 
 
