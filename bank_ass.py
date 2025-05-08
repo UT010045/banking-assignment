@@ -14,7 +14,7 @@ def create_customer_next_id():
       return f"U(int(customer_file.readline()[-1].split(",")[0][1:]+1:03))
 create_customer_next_id():
 
-d
+
 
 accounts={}
 account_number=001
