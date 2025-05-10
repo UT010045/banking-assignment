@@ -1,145 +1,170 @@
+import random
+from datetime import datetime
 
-import sys
-import os
+accounts = {}
 
-def get_customer_info():
-  name=input("enter your name:")
-  address=input("enter your address:")
-  username=input("enter the username:")
-  password=input("enter your password:")
+def login():
+    username = input("Enter the username: ")
+    password = input("Enter your password: ")
 
-  return [name,address,username,password]
+    try:
+        with open("login.txt","r") as file:
+            for line in file:
+                parts = line.strip().split(":")
+                if len(parts) == 3:
+                    saved_user,saved_pass,role = parts
+                    if username == saved_user and password == saved_pass:
+                        print (f"login successfull!!")
+    except FileNotFoundError:
+        print ("Error")
 
-def create_customer_next_id():
-    if os.path.exists("customers.txt"):
-        with open("customers.txt","r") as customer_file:
-            lines = customer_file.readline()
-            if not lines: 
-                return"U001"
-            last_line = lines[-1].strip()
-            last_id = last_line.split(",")[0]
-            next_id_num = int(last_id[1:]) + 1
-            return f"U{next_id_num:03}"
-    return"U001"
+def adminmenu():
+    while True:
+        print("\n==== Admin Banking Menu ====")
+        print("1. Create Account")
+        print("2. Deposit Money")
+        print("3. Withdraw Money")
+        print("4. Check Balance")
+        print("5. Transaction History")
+        print("6. Exit")
 
-def create_customer():
-    customer = get_customer_info()
-    with open("customer.txt","w") as file:
-        file.write(f"{customer[0]},{customer[1]}\n")
+        choice = input("Choose your choice (1-6): ")
+        if choice == "1":
+            create_account()
+        elif choice == "2":
+            deposit_money()
+        elif choice == "3":
+            withdraw_money()
+        elif choice == "4":
+            check_balance()
+        elif choice == "5":
+            transaction_history()
+        elif choice == "6":
+            print("Thank you")
+            break
+        else:
+            print("Invalid choice")
 
-def create_user():
-    user = get_customer_info()
-    with open("user.txt","w") as file:
-        file.write(f"{customer[2]},{customer[3]}")
+def usermenu():
+    while True:
+        print("\n==== User Banking Menu ====")
+        print("1. Deposit Money")
+        print("2. Withdraw Money")
+        print("3. Check Balance")
+        print("4. Transaction History")
+        print("5. Exit")
 
-def view_all_customer():
-    with open("customers.txt","r") as file:
-        for customer in customer_file . readline():
-            print("customer")
-
-accounts={}
-account_number= 000
+        choice = input("Choose your choice (1-5): ")
+        if choice == "1":
+            deposit_money()
+        elif choice == "2":
+            withdraw_money()
+        elif choice == "3":
+            check_balance()
+        elif choice == "4":
+            transaction_history()
+        elif choice == "5":
+            print("Thank you")
+            break
+        else:
+            print("Invalid choice")
 
 def create_account():
-    global account_number
-    name= input("enter account user name:")
+    name = input("Enter account user name: ")
+    user_name = input("Enter login username: ")
+    user_password = input("Enter login password: ")
     try:
-        initial_balance=float(input("enter initial balance"))
+        initial_balance = float(input("Enter initial balance: "))
         if initial_balance < 0:
-            print("initial balance cannot ve nagative:")
+            print("Initial balance cannot be negative")
             return
     except ValueError:
-        print ("invaild input.please enter vaild input")
+        print("Invalid input. Please enter a valid amount")
         return
-    
-    acc_num = account_number
-    accounts[acc_num] = {
-        "name" : name,
-        "balance" : initial_balance,
-        "transactions" : [("Initial Deposit" , initial_balance)] 
-    }
-    account_number += 1
-    print(f"account created successfull! Account Number = {account_number}")
 
+    account_number = str(random.randint(10000, 99999))
+    while account_number in accounts:
+        account_number = str(random.randint(10000, 99999))
+
+    accounts[account_number] = {
+        "Name": name,
+        "balance": initial_balance,
+        "transaction": []
+    }
+
+    save_account_to_file(account_number, name, user_name, user_password, initial_balance)
+    append_login_credentials(user_name, user_password)
+    print(f"Account created successfully! Account number: {account_number}")
+
+def save_account_to_file(account_number, name, user_name, user_password, balance):
+    with open("create.txt", "a") as file:
+        file.write(f"{account_number}:{name}:{user_name}:{user_password}:{balance}\n")
+
+def append_login_credentials(user_name, password, role="user"):
+    with open("login.txt", "a") as file:
+        file.write(f"{user_name}:{password}:{role}\n")
 
 def deposit_money():
-    acc_no = int(input("enter account number"))
-    if acc_no not in accounts:
+    account_number = input("Enter account number: ")
+    if account_number not in accounts:
         print("Account not found")
         return
-    amount =float (input(":enter the deposit amount"))
-    if amount <= 0:
-        print("amount is positive")
+    try:
+        amount = float(input("Enter the deposit amount: "))
+        if amount <= 0:
+            print("Amount must be positive")
+            return
+    except ValueError:
+        print("Invalid amount")
         return
-    if amount>accounts[acc_no]["balance"]:
-        print ("insuffucient balance")
-        return
-    accounts[acc_no]["balance"] += amount
-    accounts[acc_no]["transaction"].append(("deposit",amount))
-    print ("deposit successfull!")
+
+    accounts[account_number]["balance"] += amount
+    accounts[account_number]["transaction"].append(("deposit", amount, str(datetime.now())))
+    print("Deposit successful!")
 
 def withdraw_money():
-    acc_no = int(input("enter account number"))
-    if acc_no not in accounts:
+    account_number = input("Enter account number: ")
+    if account_number not in accounts:
         print("Account not found")
         return
-    amount = float(input("enter the withdraw amount"))
-    if amount <= 0:
-        print("amount is positive")
+    try:
+        amount = float(input("Enter the withdrawal amount: "))
+        if amount <= 0:
+            print("Amount must be positive")
+            return
+        if amount > accounts[account_number]["balance"]:
+            print("Insufficient balance")
+            return
+    except ValueError:
+        print("Invalid amount")
         return
-    if amount>accounts[acc_no]["balance"]:
-        print ("insuffucient balance")
-        return
-    accounts[acc_no]["balance"] += amount
-    accounts[acc_no]["transaction"].append(("withdraw",amount))
-    print ("withdraw successfull!")
 
+    accounts[account_number]["balance"] -= amount
+    accounts[account_number]["transaction"].append(("withdraw", amount, str(datetime.now())))
+    print("Withdrawal successful!")
 
 def check_balance():
-    try: 
-        acc_no=int(input("enter your account number"))
-        if acc_no not in accounts:
-            print("account is not found")
-            return
-        print(f"current balance is {accounts[acc_no]["balance"]}")
-    except ValueError:
-        print ("invaild input")
+    account_number = input("Enter your account number: ")
+    if account_number not in accounts:
+        print("Account not found")
+        return
+    print(f"Current balance is {accounts[account_number]['balance']}")
 
 def transaction_history():
-    try: 
-        acc_no=int(input("enter your account number"))
-        if acc_no not in accounts:
-            print("account is not found")
-            return
-        print(f"transaction history for account{acc_no}:")
-    except ValueError:
-        print ("invaild input")
+    account_number = input("Enter your account number: ")
+    if account_number not in accounts:
+        print("Account not found")
+        return
+    print(f"Transaction history for account {account_number}:")
+    for t in accounts[account_number]["transaction"]:
+        print(f"{t[2]} - {t[0]}: {t[1]}")
 
-        
-def main():
-    while True:
-        print("1.Create account\n")
-        print("2.Deposit money\n")
-        print("3.Withdraw money\n")
-        print("4.Check balance\n")
-        print("5.Transaction history\n")
-        print("6.Exit\n")
 
-        choice=(input("enter your choice(1-6):"))
-        if choice=="1":
-          create_account()
-        elif choice=="2":
-          deposit_money()
-        elif choice=="3":
-          withdraw_money()
-        elif choice=="4":
-          check_balance()
-        elif choice=="5":
-          transaction_history()
-        elif choice=="6":
-          print("Thanks you for using")
-        break
-main()
+login()
+adminmenu()
+usermenu()
+
+
 
  
 
