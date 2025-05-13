@@ -22,23 +22,23 @@ def adminmenu():
     while True:
         print("\n==== Admin Banking Menu ====")
         print("1. Create Account")
-        print("2. Deposit Money")
-        print("3. Withdraw Money")
-        print("4. Check Balance")
-        print("5. Transaction History")
+        print("2. Check Balance")
+        print("3. Transaction History")
+        print("4. Transfer money")
+        print("5. Password protection")
         print("6. Exit")
 
         choice = input("Choose your choice (1-6): ")
         if choice == "1":
-            create_account()
+            Create_account()
         elif choice == "2":
-            deposit_money()
+            Check_balance()
         elif choice == "3":
-            withdraw_money()
+            Transaction_history()
         elif choice == "4":
-            check_balance()
+            Transfer money()
         elif choice == "5":
-            transaction_history()
+            Password protection()
         elif choice == "6":
             print("Thank you")
             break
@@ -160,9 +160,13 @@ def transaction_history():
         print(f"{t[2]} - {t[0]}: {t[1]}")
 
 
+
+
 login()
 adminmenu()
 usermenu()
+
+
 
 
 
