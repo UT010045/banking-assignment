@@ -185,6 +185,12 @@ def Transer Money():
     except ValueError:
        print("Invalid Amount.")
 
+def Change_Password():
+    UserNAME = input("Enter Your User Name:")
+    Old_Password = input("Ender Your Old Password:")
+    
+    updated_lines = []
+
 
 
 login()
