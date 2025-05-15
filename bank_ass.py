@@ -177,7 +177,7 @@ def Transer Money():
           print("Insufficient Balance on Account")
           return
 
-       Account[from_acc]["Balance"] -- amount
+       Account[from_acc]["Balance"] == amount
        Account[to_acc] ["Balance"] += amount
        Account[from_acc]["Transactions"].append(f"Transferred ${amount:.2f} to {to_acc}")
        Account[to_acc] ["Transactions"].append(f"Transferred $(amount:.2f} to {from_acc}")
