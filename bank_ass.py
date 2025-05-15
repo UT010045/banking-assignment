@@ -190,12 +190,52 @@ def Change_Password():
     Old_Password = input("Ender Your Old Password:")
     
     updated_lines = []
+    found = False
+
+    try:
+        with open("login.txt", "r")as file:
+            for line in file:
+                parts = line.strip().split(':')
+
+                if len(parts) !=3:
+                    updated_lines.append(line)
+                    continue
+                
+                saved_user, saved_pass, role = parts
+                if UserNAME == saved_user and Old_Password == saved_pass:
+                    New_Password = input("Enter Your New Password: ")
+                    updated_lines.append(f"{UserNAME}: {New_Password}:{role}\n")
+                    found = True
+                else:
+                    updated_lines.append(line)
+        if found:
+            with open("login.txt", "w") as file:
+                 file.writelines (updated_lines)
+                 print("Password Changed Successfully")
+        else:
+            print("Incorrect User Name or Password.")
+
+   except FileNotFoundError:
+      print("Something Error Plese Try Again")
+
+def main():
+    role, username = login()
+    if role is None:
+        print("Login failed. Exiting. ")
+    if role == "admin":
+        Adminmenu()
+    else:
+        Usermenu()
+
+main()
+
+
+   
+
+                    
 
 
 
-login()
-adminmenu()
-usermenu()
 
 
 
