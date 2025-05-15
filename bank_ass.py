@@ -159,6 +159,31 @@ def transaction_history():
     for t in accounts[account_number]["transaction"]:
         print(f"{t[2]} - {t[0]}: {t[1]}")
 
+def Transer Money():
+    from_acc= input("Enter your Account Number: ")
+    if from_acc not in Account:
+        print("Sender Account Number is Wrong.")
+        return
+    to_acc = input("Enter Recipient Account Number:")
+    if to_acc not in Account:
+        print("Recipient Account Number is Wrong.")
+        return
+    try:
+       amount float(input("Enter Amount to Transfer: "))
+       if amount <= 0:
+          print("Amount Must be Greater than 8.")
+          return
+       if amount > Account[from_acc] ["Balance"]:
+          print("Insufficient Balance on Account")
+          return
+
+       Account[from_acc]["Balance"] -- amount
+       Account[to_acc] ["Balance"] += amount
+       Account[from_acc]["Transactions"].append(f"Transferred ${amount:.2f} to {to_acc}")
+       Account[to_acc] ["Transactions"].append(f"Transferred $(amount:.2f} to {from_acc}")
+       print(f"Transfer Successful.${amount:.2f} transferred from (from_acc) to (to_acc}")
+    except ValueError:
+       print("Invalid Amount.")
 
 
 
