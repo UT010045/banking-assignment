@@ -72,15 +72,17 @@ def usermenu():
 def Create_account():
     name = input("Enter account user name: ")
     user_name = input("Enter login username: ")
-    password = input("enter your password")
-    try:
-        initial_balance = float(input("Enter initial balance: "))
-        if initial_balance < 0:
-            print("Initial balance cannot be negative")
+    user_password = input("enter your password")
+    while True:
+        try:
+            initial_balance = float(input("Enter initial balance: "))
+            if initial_balance < 0:
+                print("Initial balance cannot be negative")
+                continue
+            break
+        except ValueError:
+            print("Invalid input. Please enter a valid amount")
             return
-    except ValueError:
-        print("Invalid input. Please enter a valid amount")
-        return
 
     account_number = str(random.randint(10000, 99999))
     while account_number in accounts:
