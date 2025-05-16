@@ -36,9 +36,9 @@ def adminmenu():
         elif choice == "3":
             Transaction_history()
         elif choice == "4":
-            Transfer money()
+            Transfer_money()
         elif choice == "5":
-            Password protection()
+            Password_protection()
         elif choice == "6":
             print("Thank you")
             break
@@ -69,10 +69,18 @@ def usermenu():
         else:
             print("Invalid choice")
 
-def create_account():
+def Create_account():
     name = input("Enter account user name: ")
     user_name = input("Enter login username: ")
-    user_password = input("Enter login password: ")
+    while True:
+        password = input("Enter your password (at least 6 characters): ")
+        
+        if len(password) >= 6:
+            print("Account created successfully!")
+            break
+        else:
+            print("Error: Password must be at least 6 characters long. Please try again.")
+
     try:
         initial_balance = float(input("Enter initial balance: "))
         if initial_balance < 0:
@@ -103,8 +111,9 @@ def save_account_to_file(account_number, name, user_name, user_password, balance
 def append_login_credentials(user_name, password, role="user"):
     with open("login.txt", "a") as file:
         file.write(f"{user_name}:{password}:{role}\n")
+        
 
-def deposit_money():
+def Deposit_money():
     account_number = input("Enter account number: ")
     if account_number not in accounts:
         print("Account not found")
@@ -122,7 +131,7 @@ def deposit_money():
     accounts[account_number]["transaction"].append(("deposit", amount, str(datetime.now())))
     print("Deposit successful!")
 
-def withdraw_money():
+def Withdraw_money():
     account_number = input("Enter account number: ")
     if account_number not in accounts:
         print("Account not found")
@@ -143,14 +152,14 @@ def withdraw_money():
     accounts[account_number]["transaction"].append(("withdraw", amount, str(datetime.now())))
     print("Withdrawal successful!")
 
-def check_balance():
+def Check_balance():
     account_number = input("Enter your account number: ")
     if account_number not in accounts:
         print("Account not found")
         return
     print(f"Current balance is {accounts[account_number]['balance']}")
 
-def transaction_history():
+def Transaction_history():
     account_number = input("Enter your account number: ")
     if account_number not in accounts:
         print("Account not found")
@@ -159,7 +168,7 @@ def transaction_history():
     for t in accounts[account_number]["transaction"]:
         print(f"{t[2]} - {t[0]}: {t[1]}")
 
-def Transer Money():
+def Transer_Money():
     from_acc= input("Enter your Account Number: ")
     if from_acc not in Account:
         print("Sender Account Number is Wrong.")
@@ -169,7 +178,7 @@ def Transer Money():
         print("Recipient Account Number is Wrong.")
         return
     try:
-       amount float(input("Enter Amount to Transfer: "))
+       amount= float(input("Enter Amount to Transfer: "))
        if amount <= 0:
           print("Amount Must be Greater than 8.")
           return
@@ -180,8 +189,8 @@ def Transer Money():
        Account[from_acc]["Balance"] == amount
        Account[to_acc] ["Balance"] += amount
        Account[from_acc]["Transactions"].append(f"Transferred ${amount:.2f} to {to_acc}")
-       Account[to_acc] ["Transactions"].append(f"Transferred $(amount:.2f} to {from_acc}")
-       print(f"Transfer Successful.${amount:.2f} transferred from (from_acc) to (to_acc}")
+       Account[to_acc] ["Transactions"].append(f"Transferred ${amount:.2f} to {from_acc}")
+       print(f"Transfer Successful.${amount:.2f} transferred from (from_acc) to {to_acc}")
     except ValueError:
        print("Invalid Amount.")
 
@@ -193,7 +202,7 @@ def Change_Password():
     found = False
 
     try:
-        with open("login.txt", "r")as file:
+       with open("login.txt", "r")as file:
             for line in file:
                 parts = line.strip().split(':')
 
@@ -208,60 +217,22 @@ def Change_Password():
                     found = True
                 else:
                     updated_lines.append(line)
-        if found:
-            with open("login.txt", "w") as file:
-                 file.writelines (updated_lines)
-                 print("Password Changed Successfully")
-        else:
-            print("Incorrect User Name or Password.")
-
-   except FileNotFoundError:
-      print("Something Error Plese Try Again")
-
-def main():
-    role, username = login()
-    if role is None:
-        print("Login failed. Exiting. ")
-    if role == "admin":
-        Adminmenu()
-    else:
-        Usermenu()
-
-main()
-
-
-   
-
                     
+       if found:
+          with open("login.txt", "w") as file:
+               file.writelines(updated_lines)
+               print("Password Changed Successfully")
+       else:
+           print("Incorrect Username or Password.")
+            
+    except FileNotFoundError:
+        print("somthing error please try again")
+
+        
+
+login()
+adminmenu()
+usermenu()
 
 
 
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-  
