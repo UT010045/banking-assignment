@@ -72,15 +72,7 @@ def usermenu():
 def Create_account():
     name = input("Enter account user name: ")
     user_name = input("Enter login username: ")
-    while True:
-        password = input("Enter your password (at least 6 characters): ")
-        
-        if len(password) >= 6:
-            print("Account created successfully!")
-            break
-        else:
-            print("Error: Password must be at least 6 characters long. Please try again.")
-
+    password = input("enter your password")
     try:
         initial_balance = float(input("Enter initial balance: "))
         if initial_balance < 0:
