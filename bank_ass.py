@@ -228,11 +228,6 @@ def Change_Password():
     except FileNotFoundError:
         print("somthing error please try again")
 
-        
-
 login()
 adminmenu()
 usermenu()
-
-
-
