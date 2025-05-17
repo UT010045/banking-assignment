@@ -1,3 +1,4 @@
+
 import random
 from datetime import datetime
 
@@ -18,6 +19,7 @@ def login():
     except FileNotFoundError:
         print ("Error")
 
+
 def adminmenu():
     while True:
         print("\n==== Admin Banking Menu ====")
@@ -25,8 +27,9 @@ def adminmenu():
         print("2. Check Balance")
         print("3. Transaction History")
         print("4. Transfer money")
-        print("5. Password protection")
-        print("6. Exit")
+        print("5. Change password")
+        print("6. Check Admin Status" )
+        print("7. Exit")
 
         choice = input("Choose your choice (1-6): ")
         if choice == "1":
@@ -38,8 +41,10 @@ def adminmenu():
         elif choice == "4":
             Transfer_money()
         elif choice == "5":
-            Password_protection()
+            Change_password()
         elif choice == "6":
+            Check_Admin_Status()
+        elif choice == "7":
             print("Thank you")
             break
         else:
@@ -72,8 +77,14 @@ def usermenu():
 def Create_account():
     name = input("Enter account user name: ")
     user_name = input("Enter login username: ")
-    user_password = input("enter your password")
+    user_password = input("enter your password:")
     while True:
+#ques 04
+        if len(user_password) >= 6:
+           print ("strong password")
+        else :
+            print ("Password must be at least 6 characters.")
+            break
         try:
             initial_balance = float(input("Enter initial balance: "))
             if initial_balance < 0:
@@ -105,7 +116,7 @@ def save_account_to_file(account_number, name, user_name, user_password, balance
 def append_login_credentials(user_name, password, role="user"):
     with open("login.txt", "a") as file:
         file.write(f"{user_name}:{password}:{role}\n")
-        
+
 
 def Deposit_money():
     account_number = input("Enter account number: ")
@@ -188,8 +199,10 @@ def Transer_Money():
     except ValueError:
        print("Invalid Amount.")
 
+#ques 02
+
 def Change_Password():
-    UserNAME = input("Enter Your User Name:")
+    Username = input("Enter Your User Name:")
     Old_Password = input("Ender Your Old Password:")
     
     updated_lines = []
@@ -205,7 +218,7 @@ def Change_Password():
                     continue
                 
                 saved_user, saved_pass, role = parts
-                if UserNAME == saved_user and Old_Password == saved_pass:
+                if Username == saved_user and Old_Password == saved_pass:
                     New_Password = input("Enter Your New Password: ")
                     updated_lines.append(f"{UserNAME}: {New_Password}:{role}\n")
                     found = True
@@ -222,6 +235,16 @@ def Change_Password():
     except FileNotFoundError:
         print("somthing error please try again")
 
+"""
+def Check_Admin_Status():
+   user_details = []
+   user_details = [user_name]
+   role == user_details
+    if role == user_details:
+       print ("you are an Admin")
+    else:
+        print ("you are a customer")
+"""
 login()
 adminmenu()
 usermenu()
